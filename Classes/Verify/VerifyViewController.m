@@ -8,8 +8,12 @@
 
 #import "VerifyViewController.h"
 #import "MKStoreManager.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation VerifyViewController
+{
+    MPMoviePlayerController *player;
+}
 
 @synthesize viewNonVerified, viewPhoneNumber, viewEnterCode, viewVerified, viewPending, viewSendVideo;
 
@@ -72,6 +76,17 @@
             }
          }
      }];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"samplevideo" ofType:@"mp4"];
+    player = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:path]];
+    [player.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [player setControlStyle:MPMovieControlStyleNone];
+    [self.viewVideoContainer addSubview:player.view];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [player.view setFrame:self.viewVideoContainer.frame];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
@@ -262,6 +277,7 @@
                                   }
                                   completion:^(BOOL finished){
                                   }];
+                 [player play];
                  [self showView:viewSendVideo];
              }else{
                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fail"
@@ -334,6 +350,7 @@
              {
                  if ([[response objectForKey:@"success"] boolValue])
                  {
+                     [player stop];
                      [self showView:viewPending];
                  }else{
                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed"

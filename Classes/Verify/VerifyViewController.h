@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *viewSendVideo;
 @property (weak, nonatomic) IBOutlet UIButton *btnSendVideo;
+@property (weak, nonatomic) IBOutlet UIView *viewVideoContainer;
 - (IBAction)clickSendVideo:(id)sender;
 
 
