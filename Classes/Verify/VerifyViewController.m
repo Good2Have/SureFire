@@ -78,15 +78,23 @@
      }];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"samplevideo" ofType:@"mp4"];
-    player = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:path]];
-    [player.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    player = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
+    [self.viewVideoContainer addSubview:player.view];
+    
     [player setControlStyle:MPMovieControlStyleNone];
+    
+    player.view.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.viewVideoContainer addConstraint:[NSLayoutConstraint constraintWithItem:player.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.viewVideoContainer attribute:NSLayoutAttributeLeading multiplier:1.0f constant:0]];
+    [self.viewVideoContainer addConstraint:[NSLayoutConstraint constraintWithItem:player.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.viewVideoContainer attribute:NSLayoutAttributeTop multiplier:1.0f constant:0]];
+    [self.viewVideoContainer addConstraint:[NSLayoutConstraint constraintWithItem:player.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.viewVideoContainer attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:0]];
+    [self.viewVideoContainer addConstraint:[NSLayoutConstraint constraintWithItem:player.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.viewVideoContainer attribute:NSLayoutAttributeBottom multiplier:1.0f constant:0]];
+    
     [self.viewVideoContainer addSubview:player.view];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [player.view setFrame:self.viewVideoContainer.frame];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
